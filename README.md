@@ -1,12 +1,12 @@
 # API Edu - Management API
 
-This project provides an API for managing EDU data, allowing clients to fetch  information about Educational. Currently, the API includes an endpoint to retrieve a list of schools.
+This project provides an API for managing data, allowing clients to fetch  information about **edu.azores**. Currently, the API includes an endpoint to retrieve a list of schools.
 
 
 
 ## Introduction
 
-API Edu is a web-based project that offers a backend API to manage Educational data. It is designed to provide an easy-to-use interface for managing and retrieving educational information through RESTful API calls. The API requires an API key for authentication, ensuring that only authorized users can access the data.
+API Edu is a web-based project that offers a backend API to manage educational data. It is designed to provide an easy-to-use interface for managing and retrieving information through RESTful API calls. The API requires an API key for authentication, ensuring that only authorized users can access the data.
 
 ## Technologies Used
 
