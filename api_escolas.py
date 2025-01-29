@@ -1,5 +1,5 @@
 import pymysql
-from flask import Flask, jsonify, request
+from flask import Flask, json, jsonify, request
 from config import DB_CONFIG, API_KEY  # Import the API key from the config
 
 app = Flask(__name__)
@@ -22,7 +22,6 @@ def api_key_required(f):
 
 # Route to fetch the full table with API key authentication
 @app.route('/escolas', methods=['GET'])
-@api_key_required  # Apply the API key check to this route
 def get_table():
     conn = connect_db()
     cursor = conn.cursor()
@@ -30,7 +29,17 @@ def get_table():
     rows = cursor.fetchall()
     conn.close()
 
+    # Decode special characters in the escola_nome field
+    for row in rows:
+        row['escola_nome'] = json.loads(f'"{row["escola_nome"]}"')
+        print(row['escola_nome'])
+
     return jsonify({"table": rows})
+
+@app.after_request
+def after_request(response):
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8081)
