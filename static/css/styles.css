@@ -1,0 +1,227 @@
+/* General styles for body and container */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(to right, #f9f9fb, #eef1f5);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container styles */
+.container {
+    margin-left: 240px;
+    padding: 40px;
+}
+
+/* Heading Styles */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.2rem;
+    color: #444;
+    font-weight: 600;
+}
+
+/* Sidebar styles */
+.sidebar {
+    height: 100%;
+    width: 240px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #434545;
+    border-right: 1px solid #0733d0;
+    padding-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a {
+    color: #555;
+    padding: 15px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+    background: linear-gradient(to right, #e2e8f0, #f0f4f8);
+    color: #0078ff;
+}
+
+.sidebar .logout-btn {
+    position: absolute;
+    bottom: 20px;
+    width: 90%;
+    margin: 0 auto;
+    left: 5%;
+    background: #f8e5e8;
+    color: #b13b47;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.sidebar .logout-btn:hover {
+    background: #f4cbd2;
+}
+
+/* Table list styles */
+.table-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.table-list li {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.table-link {
+    color: #0078ff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.table-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 15px 0;
+    background: #ffffff;
+    border-top: 1px solid #e5e5e5;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.9rem;
+    color: #777;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+    color: #0078ff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .container {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    footer {
+        position: static;
+    }
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+table, th, td {
+    border: 1px solid #e5e5e5;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+th {
+    background: linear-gradient(to right, #e2e8f0, #f8fafc);
+    color: #333;
+    font-weight: 600;
+}
+
+td {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+tr:hover td {
+    background: #f5f9fd;
+}
+
+/* Button styles */
+button {
+    padding: 10px 18px;
+    font-size: 1rem;
+    color: #fff;
+    background: linear-gradient(to right, #0078ff, #0056b3);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(to right, #0056b3, #003a82);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Edit Button */
+.edit-btn {
+    background: linear-gradient(to right, #ffcf70, #e0a800);
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 0.95rem;
+}
+
+.edit-btn:hover {
+    background: linear-gradient(to right, #e0a800, #d18a00);
+}
+
+/* Logout Button */
+.logout-btn {
+    background: #fdd5d8;
+    color: #b13b47;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+}
+
+.logout-btn:hover {
+    background: #fac1c5;
+}
+
+/* Action Buttons */
+.action-btns {
+    text-align: right;
+}

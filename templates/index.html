@@ -3,110 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escolas Management</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        input {
-            width: 90%;
-            padding: 5px;
-        }
-        button {
-            padding: 10px 15px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Main Page - Tables</title>
+    
 </head>
 <body>
-    <h1>Escolas Management</h1>
-    <table id="escolasTable">
-        <thead>
-            <tr>
-                <th>Escola ID</th>
-                <th>Escola Nome</th>
-                <th>Ilha ID</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be populated dynamically -->
-        </tbody>
-    </table>
-    <button onclick="loadTable()">Reload Table</button>
+    <!-- Sidebar Section -->
+    <div class="sidebar">
+        <h3 style="text-align:center; color: white;">API Edu</h3>
+        <a href="{{ url_for('index') }}">Dashboard</a>
+        <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+    </div>
 
-    <script>
-        // Fetch the table data from the Flask API
-        function loadTable() {
-            fetch('/escolas')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); // Check the API response structure here
-                const tableBody = document.querySelector('#escolasTable tbody');
-                tableBody.innerHTML = '';
-                data.escolas.forEach(row => { // Use data.escolas instead of data.table
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${row.escola_id}</td>
-                        <td><input type="text" value="${row.escola_nome}" data-escola-id="${row.escola_id}" /></td>
-                        <td>${row.ilha_id}</td>
-                        <td><button onclick="updateEscola(${row.escola_id})">Update</button></td>
-                    `;
-                    tableBody.appendChild(tr);
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-        }
-
-        // Update the school name in the database
-        function updateEscola(escolaId) {
-            const inputField = document.querySelector(`input[data-escola-id="${escolaId}"]`);
-            const escolaNome = inputField.value;
-
-            fetch('/update_escola', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    escola_id: escolaId,
-                    escola_nome: escolaNome,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Escola updated successfully!');
-                } else {
-                    alert('Error updating escola!');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        // Load the table when the page loads
-        document.addEventListener('DOMContentLoaded', loadTable);
-    </script>
+    <!-- Main Content Section -->
+    <div class="container">
+        <h1>Available Tables</h1>
+        <ul class="table-list">
+            <li><a href="{{ url_for('escolas') }}" class="table-link">Escolas Table</a></li>
+            <!-- More table links here -->
+        </ul>
+    </div>
 </body>
 </html>

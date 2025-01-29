@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <title>Edit Escola</title>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Escola</h1>
+        <form method="POST">
+            <label for="escola_nome">Escola Nome:</label>
+            <input type="text" name="escola_nome" id="escola_nome" value="{{ escola[1] }}" required>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</body>
+</html>

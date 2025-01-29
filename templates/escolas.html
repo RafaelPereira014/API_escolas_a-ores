@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <title>Escolas Table</title>
+    
+</head>
+<body>
+    <div class="sidebar">
+        <h3 style="text-align:center; color: white;">API Edu</h3>
+        <a href="{{ url_for('index') }}">Dashboard</a>
+        <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+    </div>
+
+    <div class="container">
+        <h1>Escolas Table</h1> 
+        <button class="reload-btn" onclick="location.reload()">Reload</button>
+
+        <table id="escolas-table">
+            <thead>
+                <tr>
+                    <th>Escola ID</th>
+                    <th>Escola Nome</th>
+                    <th>Ilha ID</th>
+                    {% if 'admin_id' in session %}
+                        <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table_data %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        {% if 'admin_id' in session %}
+                            <td class="action-btns">
+                                <button class="edit-btn" onclick="editRow({{ row[0] }}, '{{ row[1] }}')">Edit</button>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Function to handle the edit action (opens a prompt for simplicity)
+        function editRow(escolaId, escolaNome) {
+            let newEscolaNome = prompt("Edit Escola Nome:", escolaNome);
+            if (newEscolaNome && newEscolaNome !== escolaNome) {
+                // Send request to the backend to update the escola_nome
+                fetch('/edit_escola', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        escola_id: escolaId,
+                        escola_nome: newEscolaNome
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Escola Nome updated successfully!");
+                        location.reload();
+                    } else {
+                        alert("Failed to update Escola Nome.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>
