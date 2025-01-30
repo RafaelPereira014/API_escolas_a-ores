@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Main Page - Tables</title>
-    
+    <title>Dashboard</title>
 </head>
 <body>
     <!-- Sidebar Section -->
     <div class="sidebar">
-        <h3 style="text-align:center; color: white;">API Edu</h3>
+        <h3>API Edu</h3>
         <a href="{{ url_for('index') }}">Dashboard</a>
         <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
     </div>
 
     <!-- Main Content Section -->
     <div class="container">
-        <h1>Available Tables</h1>
-        <ul class="table-list">
-            <li><a href="{{ url_for('escolas') }}" class="table-link">Escolas Table</a></li>
-            <!-- More table links here -->
-        </ul>
+        <header>
+            <h1>Tabelas Disponíveis</h1>
+        </header>
+        <main>
+            <ul class="table-list">
+                <li><a href="{{ url_for('escolas') }}" class="table-link">Escolas</a></li>
+                <!-- More table links here -->
+            </ul>
+        </main>
     </div>
 </body>
 </html>

@@ -14,16 +14,16 @@
     </div>
 
     <div class="container">
-        <h1>Escolas Table</h1>
-        <button class="reload-btn" onclick="location.reload()">Reload</button>
+        <h1>Escolas </h1>
+        <button class="reload-btn" onclick="location.reload()">Recarregar tabela</button>
         <table>
             <thead>
                 <tr>
-                    <th>Escola ID</th>
-                    <th>Escola Nome</th>
+                    <th>ID</th>
+                    <th>Nome</th>
                     <th>Ilha ID</th>
                     {% if 'admin_id' in session %}
-                        <th>Actions</th>
+                        <th>Ações</th>
                     {% endif %}
                 </tr>
             </thead>
