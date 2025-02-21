@@ -70,39 +70,9 @@ def add_colocado():
         print(f"Error: {e}")
         return jsonify({"error": "Internal server error"}), 500
 
-@app.route('/update_state', methods=['POST'])
-def update_estado():
-    try:
-        data = request.get_json()
 
-        # Validate required fields
-        nif = data.get('NIF')
-        estado = data.get('Estado')
-
-        if not all([nif, estado]):
-            return jsonify({"error": "Missing required fields"}), 400
-
-        # Insert data into the database
-        connection = connect_db()
-        with connection.cursor() as cursor:
-            sql = '''
-                UPDATE colocados SET Estado=%s WHERE nif=%s
-            '''
-            cursor.execute(sql, (estado, nif))
-        connection.commit()
-        connection.close()
-
-        return jsonify({"message": "Data successfully updated"}), 200
-
-    except pymysql.MySQLError as e:
-        print(f"Database Error: {e}")
-        return jsonify({"error": "Database error"}), 500
-
-    except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Internal server error"}), 500
     
-@app.route('/colocados_<int:bolsa_id>_<string:COD_EST>', methods=['GET'])
+@app.route('/colocados_<int:bolsa_id>_<cod_est>', methods=['GET'])
 def get_colocados(bolsa_id, cod_est):
     try:
         # Fetch filtered data from the database
@@ -117,8 +87,19 @@ def get_colocados(bolsa_id, cod_est):
             rows = cursor.fetchall()
         connection.close()
 
-        # Return the filtered data
-        return jsonify(rows), 200
+        # Format rows into a JSON-compatible structure
+        formatted_rows = [
+            {
+                "NIF": row[0],
+                "Bolsa_id": row[1],
+                "COD_EST": row[2],
+                "Data_colocacao": row[3].strftime('%Y-%m-%d %H:%M:%S'),
+                "Estado": row[4]
+            }
+            for row in rows
+        ]
+
+        return jsonify(formatted_rows), 200
 
     except pymysql.MySQLError as e:
         print(f"Database Error: {e}")
