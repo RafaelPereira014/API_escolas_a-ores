@@ -72,6 +72,7 @@ def add_colocado():
         return jsonify({"error": "Internal server error"}), 500
     
 @app.route('/colocados_<int:bolsa_id>_<string:escola_nome>', methods=['GET'])
+@api_key_required  
 def get_colocados(bolsa_id, escola_nome):
     try:
         # Fetch filtered data from the database
