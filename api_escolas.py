@@ -102,18 +102,18 @@ def update_estado():
         print(f"Error: {e}")
         return jsonify({"error": "Internal server error"}), 500
     
-@app.route('/colocados_<int:bolsa_id>_<string:escola_nome>', methods=['GET'])
-def get_colocados(bolsa_id, escola_nome):
+@app.route('/colocados_<int:bolsa_id>_<string:COD_EST>', methods=['GET'])
+def get_colocados(bolsa_id, cod_est):
     try:
         # Fetch filtered data from the database
         connection = connect_db()
         with connection.cursor() as cursor:
             sql = '''
-                SELECT NIF, Bolsa_id, Escola_nome, Data_colocacao, Estado
+                SELECT NIF, Bolsa_id, COD_EST, Data_colocacao, Estado
                 FROM colocados
-                WHERE Bolsa_id = %s AND Escola_nome = %s
+                WHERE Bolsa_id = %s AND COD_EST = %s
             '''
-            cursor.execute(sql, (bolsa_id, escola_nome))
+            cursor.execute(sql, (bolsa_id, cod_est))
             rows = cursor.fetchall()
         connection.close()
 
