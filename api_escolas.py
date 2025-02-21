@@ -28,7 +28,7 @@ def api_key_required(api_name):
     return decorator
 # Route to fetch the full table with API key authentication
 @app.route('/escolas', methods=['GET'])
-@api_key_required  
+@api_key_required('escolas')
 def get_table():
     rows = get_escolas()
 
@@ -71,7 +71,7 @@ def add_colocado():
         return jsonify({"error": "Internal server error"}), 500
     
 @app.route('/colocados_<int:bolsa_id>_<string:escola_nome>', methods=['GET'])
-@api_key_required  
+@api_key_required('colocados')
 def get_colocados(bolsa_id, escola_nome):
     try:
         # Fetch filtered data from the database
