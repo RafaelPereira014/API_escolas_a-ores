@@ -34,7 +34,68 @@ def get_table():
     rows = get_escolas()
 
     return jsonify({"table": rows})
+
+@app.route('/colocados', methods=['POST'])
+def add_colocado():
+    try:
+        data = request.get_json()
+
+        # Validate required fields
+        nif = data.get('NIF')
+        bolsa_id = data.get('Bolsa_id')
+        escola_nome = data.get('Escola_nome')
+        data_colocacao = data.get('Data_colocacao')
+        estado = data.get('Estado')
+
+        if not all([nif, bolsa_id, escola_nome, data_colocacao, estado]):
+            return jsonify({"error": "Missing required fields"}), 400
+
+        # Insert data into the database
+        connection = connect_db()
+        with connection.cursor() as cursor:
+            sql = '''
+                INSERT INTO colocados (NIF, Bolsa_id, Escola_nome, Data_colocacao, Estado)
+                VALUES (%s, %s, %s, %s, %s)
+            '''
+            cursor.execute(sql, (nif, bolsa_id, escola_nome, data_colocacao, estado))
+        connection.commit()
+        connection.close()
+
+        return jsonify({"message": "Data successfully inserted"}), 200
+
+    except pymysql.MySQLError as e:
+        print(f"Database Error: {e}")
+        return jsonify({"error": "Database error"}), 500
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     
+@app.route('/colocados_<int:bolsa_id>_<string:escola_nome>', methods=['GET'])
+def get_colocados(bolsa_id, escola_nome):
+    try:
+        # Fetch filtered data from the database
+        connection = connect_db()
+        with connection.cursor() as cursor:
+            sql = '''
+                SELECT NIF, Bolsa_id, Escola_nome, Data_colocacao, Estado
+                FROM colocados
+                WHERE Bolsa_id = %s AND Escola_nome = %s
+            '''
+            cursor.execute(sql, (bolsa_id, escola_nome))
+            rows = cursor.fetchall()
+        connection.close()
+
+        # Return the filtered data
+        return jsonify(rows), 200
+
+    except pymysql.MySQLError as e:
+        print(f"Database Error: {e}")
+        return jsonify({"error": "Database error"}), 500
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
 
 
 @app.route('/login', methods=['GET', 'POST'])
