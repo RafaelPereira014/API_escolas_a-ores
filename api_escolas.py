@@ -16,17 +16,16 @@ def connect_db():
 
 
 
-def api_key_required(f):
-    def decorator(*args, **kwargs):
-        # Get the API key from the request headers
-        api_key = request.headers.get('X-API-KEY')
-        
-        if api_key != API_KEY:
-            return jsonify({"error": "Forbidden, invalid API key"}), 403
-        
-        return f(*args, **kwargs)
+def api_key_required(api_name):
+    def decorator(f):
+        @wraps(f)  # Preserve the original function's metadata
+        def wrapper(*args, **kwargs):
+            api_key = request.headers.get('X-API-KEY')
+            if api_key != API_KEY:
+                return jsonify({"error": "Forbidden, invalid API key"}), 403
+            return f(*args, **kwargs)
+        return wrapper
     return decorator
-
 # Route to fetch the full table with API key authentication
 @app.route('/escolas', methods=['GET'])
 @api_key_required  
