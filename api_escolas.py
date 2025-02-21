@@ -69,6 +69,38 @@ def add_colocado():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"error": "Internal server error"}), 500
+
+@app.route('/update_state', methods=['POST'])
+def update_estado():
+    try:
+        data = request.get_json()
+
+        # Validate required fields
+        nif = data.get('NIF')
+        estado = data.get('Estado')
+
+        if not all([nif, estado]):
+            return jsonify({"error": "Missing required fields"}), 400
+
+        # Insert data into the database
+        connection = connect_db()
+        with connection.cursor() as cursor:
+            sql = '''
+                UPDATE colocados SET Estado=%s WHERE nif=%s
+            '''
+            cursor.execute(sql, (estado, nif))
+        connection.commit()
+        connection.close()
+
+        return jsonify({"message": "Data successfully updated"}), 200
+
+    except pymysql.MySQLError as e:
+        print(f"Database Error: {e}")
+        return jsonify({"error": "Database error"}), 500
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     
 @app.route('/colocados_<int:bolsa_id>_<string:escola_nome>', methods=['GET'])
 @api_key_required('colocados')
