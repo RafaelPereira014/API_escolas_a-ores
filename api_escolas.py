@@ -72,19 +72,19 @@ def add_colocado():
 
 
     
-@app.route('/colocados_<int:bolsa_id>_<cod_est>', methods=['GET'])
+@app.route('/colocados_<oferta_num>_<cod_est>', methods=['GET'])
 @api_key_required('colocados')
-def get_colocados(bolsa_id, cod_est):
+def get_colocados(oferta_num, cod_est):
     try:
         # Fetch filtered data from the database
         connection = connect_db()
         with connection.cursor() as cursor:
             sql = '''
-                SELECT id,NIF, Bolsa_id, COD_EST, Data_colocacao, Estado
+                SELECT id,NIF, COD_EST, Data_colocacao, Estado,oferta_num
                 FROM colocados
-                WHERE Bolsa_id = %s AND COD_EST = %s
+                WHERE oferta_num = %s AND COD_EST = %s
             '''
-            cursor.execute(sql, (bolsa_id, cod_est))
+            cursor.execute(sql, (oferta_num, cod_est))
             rows = cursor.fetchall()
         connection.close()
 
@@ -93,10 +93,10 @@ def get_colocados(bolsa_id, cod_est):
             {
                 "ID_colocacao":row[0],
                 "NIF": row[1],
-                "Bolsa_id": row[2],
-                "COD_EST": row[3],
-                "Data_colocacao": row[4].strftime('%Y-%m-%d %H:%M:%S'),
-                "Estado": row[5]
+                "COD_EST": row[2],
+                "Data_colocacao": row[3].strftime('%Y-%m-%d %H:%M:%S'),
+                "Estado": row[4],
+                "Oferta_num": row[5]
             }
             for row in rows
         ]
