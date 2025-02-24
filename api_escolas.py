@@ -80,7 +80,7 @@ def get_colocados(bolsa_id, cod_est):
         connection = connect_db()
         with connection.cursor() as cursor:
             sql = '''
-                SELECT ID_colocacao,NIF, Bolsa_id, COD_EST, Data_colocacao, Estado
+                SELECT id,NIF, Bolsa_id, COD_EST, Data_colocacao, Estado
                 FROM colocados
                 WHERE Bolsa_id = %s AND COD_EST = %s
             '''
