@@ -41,22 +41,22 @@ def add_colocado():
 
         # Validate required fields
         nif = data.get('NIF')
-        bolsa_id = data.get('Bolsa_id')
+        oferta_num = data.get('Oferta_num')
         cod_est = data.get('COD_EST')
         data_colocacao = data.get('Data_colocacao')
         estado = data.get('Estado')
 
-        if not all([nif, bolsa_id, cod_est, data_colocacao, estado]):
+        if not all([nif, oferta_num, cod_est, data_colocacao, estado]):
             return jsonify({"error": "Missing required fields"}), 400
 
         # Insert data into the database
         connection = connect_db()
         with connection.cursor() as cursor:
             sql = '''
-                INSERT INTO colocados (NIF, Bolsa_id, COD_EST, Data_colocacao, Estado)
+                INSERT INTO colocados (NIF, oferta_num, COD_EST, Data_colocacao, Estado)
                 VALUES (%s, %s, %s, %s, %s)
             '''
-            cursor.execute(sql, (nif, bolsa_id, cod_est, data_colocacao, estado))
+            cursor.execute(sql, (nif, oferta_num, cod_est, data_colocacao, estado))
         connection.commit()
         connection.close()
 
