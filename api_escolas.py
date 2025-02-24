@@ -73,6 +73,7 @@ def add_colocado():
 
     
 @app.route('/colocados_<int:bolsa_id>_<cod_est>', methods=['GET'])
+@api_key_required('colocados')
 def get_colocados(bolsa_id, cod_est):
     try:
         # Fetch filtered data from the database
