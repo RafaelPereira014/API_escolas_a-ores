@@ -90,11 +90,12 @@ def get_colocados(bolsa_id, cod_est):
         # Format rows into a JSON-compatible structure
         formatted_rows = [
             {
-                "NIF": row[0],
-                "Bolsa_id": row[1],
-                "COD_EST": row[2],
-                "Data_colocacao": row[3].strftime('%Y-%m-%d %H:%M:%S'),
-                "Estado": row[4]
+                "ID_colocacao":row[0],
+                "NIF": row[1],
+                "Bolsa_id": row[2],
+                "COD_EST": row[3],
+                "Data_colocacao": row[4].strftime('%Y-%m-%d %H:%M:%S'),
+                "Estado": row[5]
             }
             for row in rows
         ]
