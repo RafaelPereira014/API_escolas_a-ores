@@ -45,6 +45,7 @@ def add_colocado():
         cod_est = data.get('COD_EST')
         data_colocacao = data.get('Data_colocacao')
         estado = data.get('Estado')
+        oferta_id = oferta_num.split('/')[0] if '/' in oferta_num else oferta_num
 
         if not all([nif, oferta_num, cod_est, data_colocacao, estado]):
             return jsonify({"error": "Missing required fields"}), 400
@@ -53,10 +54,10 @@ def add_colocado():
         connection = connect_db()
         with connection.cursor() as cursor:
             sql = '''
-                INSERT INTO colocados (NIF, oferta_num, COD_EST, Data_colocacao, Estado)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO colocados (NIF, oferta_num, COD_EST, Data_colocacao, Estado,oferta_id)
+                VALUES (%s, %s, %s, %s, %s,%s)
             '''
-            cursor.execute(sql, (nif, oferta_num, cod_est, data_colocacao, estado))
+            cursor.execute(sql, (nif, oferta_num, cod_est, data_colocacao, estado,oferta_id))
         connection.commit()
         connection.close()
 
@@ -72,19 +73,19 @@ def add_colocado():
 
 
     
-@app.route('/colocados_<oferta_num>_<cod_est>', methods=['GET'])
+@app.route('/colocados_<oferta_id>_<cod_est>', methods=['GET'])
 @api_key_required('colocados')
-def get_colocados(oferta_num, cod_est):
+def get_colocados(oferta_id, cod_est):
     try:
         # Fetch filtered data from the database
         connection = connect_db()
         with connection.cursor() as cursor:
             sql = '''
-                SELECT id,NIF, COD_EST, Data_colocacao, Estado,oferta_num
+                SELECT id,NIF, COD_EST, Data_colocacao, Estado,oferta_num,oferta_id
                 FROM colocados
-                WHERE oferta_num = %s AND COD_EST = %s
+                WHERE oferta_id = %s AND COD_EST = %s
             '''
-            cursor.execute(sql, (oferta_num, cod_est))
+            cursor.execute(sql, (oferta_id, cod_est))
             rows = cursor.fetchall()
         connection.close()
 
